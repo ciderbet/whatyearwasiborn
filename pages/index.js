@@ -60,7 +60,7 @@ const Homepage = () => {
           buttonText: 'Finished',
           success: response.data.message
         })
-      }, 6000)
+      }, 5000)
       // Router.push('/success')
     } catch (error) {
       setState({
