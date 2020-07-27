@@ -130,7 +130,7 @@ const Homepage = () => {
       <div className="col-md-6 offset-md-3">
         <h1 className="text-center">Find the year you were born
         </h1>
-        <p className="text-center">Our powerful algorithms allow you to easily find your year of birth online without having to search for   any paperwork.</p>
+        <p className="text-center">Our powerful algorithms allow you to easily find your year of birth online without having to search for any paperwork.</p>
         {success && showSuccessMessage(success)}
         {error && showErrorMessage(error)}
         {homepageForm()}
