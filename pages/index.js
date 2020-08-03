@@ -51,7 +51,6 @@ const Homepage = () => {
         name,
         age
       })
-      console.log(response)
       setTimeout(() => {
         setState({
           ...state,
