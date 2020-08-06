@@ -14,6 +14,11 @@ const Layout = ({ children }) => {
           </a>
         </li>
         <li className="nav-item">
+          <a className="nav-link" href="/login">
+        Login
+          </a>
+        </li>
+        <li className="nav-item">
           <a className="nav-link" href="/about">
         About
           </a>
