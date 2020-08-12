@@ -10,7 +10,6 @@ export const setCookie = (key, value) => {
 }
 
 // remove from cookie
-
 export const removeCookie = (key) => {
   if (process.browser) {
     cookie.set(key)
