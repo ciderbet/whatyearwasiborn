@@ -11,7 +11,7 @@ export const setCookie = (key, value) => {
 }
 
 // remove from cookie
-export const removeCookie = (key) => {
+export const removeCookie = key => {
   if (process.browser) {
     cookie.remove(key)
   }
@@ -19,14 +19,32 @@ export const removeCookie = (key) => {
 
 // get from cookie such as stored token
 // will be useful when we need to make request to server with auth token
-
-export const getCookie = key => {
-  if (process.browser) {
-    return cookie.get(key)
-  }
+export const getCookie = (key, req) => {
+  // if (process.browser) {
+  //     return cookie.get(key);
+  // }
+  return process.browser ? getCookieFromBrowser(key) : getCookieFromServer(key, req)
 }
 
-// set in localstorage
+export const getCookieFromBrowser = key => {
+  return cookie.get(key)
+}
+
+export const getCookieFromServer = (key, req) => {
+  if (!req.headers.cookie) {
+    return undefined
+  }
+  console.log('req.headers.cookie', req.headers.cookie)
+  const token = req.headers.cookie.split(';').find(c => c.trim().startsWith(`${key}=`))
+  if (!token) {
+    return undefined
+  }
+  const tokenValue = token.split('=')[1]
+  console.log('getCookieFromServer', tokenValue)
+  return tokenValue
+}
+
+// set in localstoarge
 export const setLocalStorage = (key, value) => {
   if (process.browser) {
     localStorage.setItem(key, JSON.stringify(value))
@@ -34,7 +52,7 @@ export const setLocalStorage = (key, value) => {
 }
 
 // remove from localstorage
-export const removeLocalStorage = (key) => {
+export const removeLocalStorage = key => {
   if (process.browser) {
     localStorage.removeItem(key)
   }
@@ -54,7 +72,9 @@ export const isAuth = () => {
     if (cookieChecked) {
       if (localStorage.getItem('user')) {
         return JSON.parse(localStorage.getItem('user'))
-      } else return false
+      } else {
+        return false
+      }
     }
   }
 }
