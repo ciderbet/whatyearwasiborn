@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import { showSuccessMessage, showErrorMessage } from '../../../helpers/alerts'
 import { API } from '../../../config'
 import Router from 'next/router'
 import Layout from '../../../components/Layout'
-import { forgotPasswordValidator } from '../../../../server/validators/auth'
 
 const forgotPassword = () => {
   const [state, setState] = useState({
