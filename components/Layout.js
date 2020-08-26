@@ -32,6 +32,14 @@ const Layout = ({ children }) => {
           </Link>
         </li>
 
+        <li className="nav-item">
+          <Link href="/categories">
+            <a className="nav-link">
+        Categories
+            </a>
+          </Link>
+        </li>
+
         {!isAuth() && (
           <React.Fragment>
             <li className="nav-item">
