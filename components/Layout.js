@@ -25,6 +25,14 @@ const Layout = ({ children }) => {
         </li>
 
         <li className="nav-item">
+          <Link href="/user/link/create">
+            <a className="nav-link btn btn-primary">
+        Submit a link
+            </a>
+          </Link>
+        </li>
+
+        <li className="nav-item">
           <Link href="/about">
             <a className="nav-link">
         About
