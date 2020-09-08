@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import Layout from '../../../components/Layout'
 import axios from 'axios'
 import { API } from '../../../config'
+import { getCookie, isAuth } from '../../../helpers/auth'
 import { showSuccessMessage, showErrorMessage } from '../../../helpers/alerts'
 
-const Create = () => {
+const Create = ({ token }) => {
   // state
   const [state, setState] = useState({
     title: '',
@@ -38,7 +39,29 @@ const Create = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    console.table({ title, url, categories, type, medium })
+    // console.table({ title, url, categories, type, medium })
+    try {
+      const response = await axios.post(`${API}/link`, { title, url, categories, type, medium }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      setState({
+        ...state,
+        title: '',
+        url: '',
+        success: 'Link is created',
+        error: '',
+        loadedCategories: [],
+        categories: [],
+        type: '',
+        medium: ''
+      })
+    } catch (error) {
+      console.log('LINK SUBMIT ERROR', error)
+     setState({ ...state, error: error.response.data.error.msg })
+     console.log(error.response)
+    }
   }
 
   const handleTypeClick = e => {
@@ -164,7 +187,9 @@ const Create = () => {
         <label className="text-muted">URL</label>
         <input type="url" className="form-control" onChange={handleURLChange} value={url}/>
       </div>
-      <button className="btn btn-primary" type="submit">Submit</button>
+      <button disabled={!token} className="btn btn-primary" type="submit">
+        {isAuth() || token ? 'Post' : 'Login to post'}
+      </button>
     </form>
   )
 
@@ -191,11 +216,19 @@ const Create = () => {
             {showMedium()}
           </div>
         </div>
-        <div className="col-md-8">{submitLinkForm()}
+        <div className="col-md-8">
+          {success && showSuccessMessage(success)}
+          {error && showErrorMessage(error)}
+          {submitLinkForm()}
         </div>
       </div>
     </Layout>
   )
+}
+
+Create.getInitialProps = ({ req }) => {
+  const token = getCookie('token', req)
+  return { token }
 }
 
 export default Create
