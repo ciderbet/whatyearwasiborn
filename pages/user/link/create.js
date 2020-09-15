@@ -59,8 +59,8 @@ const Create = ({ token }) => {
       })
     } catch (error) {
       console.log('LINK SUBMIT ERROR', error)
-     setState({ ...state, error: error.response.data.error.msg })
-     console.log(error.response)
+      setState({ ...state, error: error.response.data.error.msg })
+      console.log(error.response)
     }
   }
 
