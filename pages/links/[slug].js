@@ -5,6 +5,7 @@ import axios from 'axios'
 import renderHTML from 'react-render-html'
 import moment from 'moment'
 import { API } from '../../config'
+import InfiniteScroll from 'react-infinite-scroller'
 
 const Links = ({ query, category, links, totalLinks, linksLimit, linkSkip }) => {
   const [allLinks, setAllLinks] = useState(links)
@@ -61,37 +62,53 @@ const Links = ({ query, category, links, totalLinks, linksLimit, linkSkip }) => 
     setSkip(toSkip)
   }
 
-  const loadMoreButton = () => {
-    return (
-      size > 0 && size >= limit && (
-        <button onClick={loadMore} className="btn btn-outline-primary btn-lg">Load more</button>
-      )
-    )
-  }
+  // const loadMoreButton = () => {
+  //   return (
+  //     size > 0 && size >= limit && (
+  //       <button onClick={loadMore} className="btn btn-outline-primary btn-lg">Load more</button>
+  //     )
+  //   )
+  // }
 
-  return (<Layout>
-    <div className="row">
-      <div className="col-md-8">
-        <h1 className="display-4 font-weight-bold">{category.name} - URL/Links</h1>
-        <div className="lead alert alert-secondary pt-4">{ renderHTML(category.content || '')}</div>
+  return (
+    <Layout>
+      <div className="row">
+        <div className="col-md-8">
+          <h1 className="display-4 font-weight-bold">{category.name} - URL/Links</h1>
+          <div className="lead alert alert-secondary pt-4">{ renderHTML(category.content || '')}</div>
+        </div>
+        <div className="col-md-4">
+          <img src={category.image.url} alt={category.name} style={{ width: 'auth', maxHeight: '200px' }} />
+        </div>
       </div>
-      <div className="col-md-4">
-        <img src={category.image.url} alt={category.name} style={{ width: 'auth', maxHeight: '200px' }} />
+      <br/>
+      <div className="row">
+        <div className="col-md-8">
+          {listOfLinks()}
+        </div>
+        <div className="col-md-4">
+          <h2 className="lead">Most popular in {category.name}</h2>
+          <p>Show popular links</p>
+        </div>
       </div>
-    </div>
-    <br/>
-    <div className="row">
-      <div className="col-md-8">
-        {listOfLinks()}
-      </div>
-      <div className="col-md-4">
-        <h2 className="lead">Most popular in {category.name}</h2>
-        <p>Show popular links</p>
-      </div>
-    </div>
 
-    <div className="text-center pt-4 pb-5">{loadMoreButton()}</div>
-  </Layout>
+      {/* <div className="text-center pt-4 pb-5">{loadMoreButton()}</div> */}
+
+      <div className="row">
+        <div className="col-md-12 text-center">
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={loadMore}
+            hasMore={size > 0 && size >= limit}
+            loader={
+              <img src="/static/images/loading.gif" alt="loading"/>
+            }
+          >
+          </InfiniteScroll>
+        </div>
+      </div>
+
+    </Layout>
   )
 }
 
