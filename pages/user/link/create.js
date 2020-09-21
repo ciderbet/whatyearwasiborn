@@ -121,7 +121,7 @@ const Create = ({ token }) => {
       <div className="form-check ml-3">
         <label className="form-check-label">
           <input
-            type="radio"
+            type="radio" defaultChecked
             onClick={handleTypeClick}
             checked={type === 'free'}
             value="free"
@@ -136,7 +136,7 @@ const Create = ({ token }) => {
       <div className="form-check ml-3">
         <label className="form-check-label">
           <input
-            type="radio"
+            type="radio" defaultChecked
             onClick={handleTypeClick}
             checked={type === 'paid'}
             value="paid"
